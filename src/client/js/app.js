@@ -9,7 +9,6 @@ const geoNamesUser = 'maher_elsayed';
 const wbKey = '894dbdeff2574675bc3ceb0d1216ae2d';
 
 // Pixabay API
-const pxURL = 'https://pixabay.com/api/?key=';
 const pxKey = '18663834-58df2d9c77242d52fb0a4a16b';
 
 
@@ -25,7 +24,14 @@ function handleSubmit(e) {
             .then((cityInfo) => {
                 const cityLat = cityInfo.geonames[0].lat;
                 const cityLng = cityInfo.geonames[0].lat;
+
                 return fetchWeatherData(cityLat, cityLng, tripDetails.travelDate);
+            })
+            .then((weatherDetails) => {
+                tripDetails.temp = weatherDetails.data[0].temp;
+                tripDetails.weatherDesc = weatherDetails.data[0].weather.description;
+
+                return fetchPixabayData(tripDetails.travelTo);
             });
 
 
@@ -61,6 +67,16 @@ const fetchWeatherData = async (cityLat, cityLng, date) => {
         response = await fetch(`https://api.weatherbit.io/v2.0/forecast/daily?lat=${cityLat}&lon=${cityLng}&key=${wbKey}`);
     }
 
+    try {
+        return await response.json();
+    } catch (err) {
+        console.log('error', err);
+    }
+}
+
+// function to fetch an image fro Pixabay API
+const fetchPixabayData = async (city) => {
+    const response = await fetch(`https://pixabay.com/api/?key=${pxKey}&q=${city}city&image_type=photo`);
     try {
         return await response.json();
     } catch (err) {
