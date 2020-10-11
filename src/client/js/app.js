@@ -11,7 +11,7 @@ const wbKey = '894dbdeff2574675bc3ceb0d1216ae2d';
 // Pixabay API
 const pxKey = '18663834-58df2d9c77242d52fb0a4a16b';
 
-
+// function to handle submit
 function handleSubmit(e) {
     e.preventDefault();
 
@@ -32,15 +32,17 @@ function handleSubmit(e) {
                 tripDetails.weatherDesc = weatherDetails.data[0].weather.description;
 
                 return fetchPixabayData(tripDetails.travelTo);
-            }).then((cityImage) => {
+            })
+            .then((cityImage) => {
                 if (cityImage.hits.length > 0) {
                     tripDetails.destinationImage = cityImage.hits[0].webformatURL;
                 }
                 // post data to the server
-                return postData(tripDetails)
+                return postData(tripDetails);
             })
-
-
+            .then(() => {
+                updateUI();
+            })
     } catch (err) {
         console.log('error', err)
     }
@@ -106,6 +108,14 @@ const postData = async (details) => {
     } catch (e) {
         console.log('error', e);
     }
+}
+
+const updateUI = () => {
+    document.querySelector('.trip-info__from span').innerHTML = tripDetails.travelFrom;
+    document.querySelector('.trip-info__to span').innerHTML = tripDetails.travelTo;
+    document.querySelector('.trip-info__date span').innerHTML = tripDetails.travelDate;
+    document.querySelector('.trip-info__weather span').innerHTML = tripDetails.temp + '&#8451; ' + tripDetails.weatherDesc;
+    document.querySelector('.trip-info__city-img span').innerHTML = `<img src="${tripDetails.destinationImage}" />`
 }
 
 document.getElementById("formSubmit").addEventListener("click", handleSubmit);
