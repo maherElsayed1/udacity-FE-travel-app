@@ -32,7 +32,13 @@ function handleSubmit(e) {
                 tripDetails.weatherDesc = weatherDetails.data[0].weather.description;
 
                 return fetchPixabayData(tripDetails.travelTo);
-            });
+            }).then((cityImage) => {
+                if (cityImage.hits.length > 0) {
+                    tripDetails.destinationImage = cityImage.hits[0].webformatURL;
+                }
+                // post data to the server
+                return postData(tripDetails)
+            })
 
 
     } catch (err) {
@@ -74,13 +80,31 @@ const fetchWeatherData = async (cityLat, cityLng, date) => {
     }
 }
 
-// function to fetch an image fro Pixabay API
+// function to fetch an image from Pixabay API
 const fetchPixabayData = async (city) => {
-    const response = await fetch(`https://pixabay.com/api/?key=${pxKey}&q=${city}city&image_type=photo`);
+    const response = await fetch(`https://pixabay.com/api/?key=${pxKey}&q=${city} city&image_type=photo`);
     try {
         return await response.json();
     } catch (err) {
         console.log('error', err);
+    }
+}
+
+// Function to post Data
+const postData = async (details) => {
+    const response = await fetch('http://localhost:8080/postData', {
+        method: "POST",
+        credentials: 'same-origin',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(details)
+    });
+
+    try {
+        return await response.json();
+    } catch (e) {
+        console.log('error', e);
     }
 }
 

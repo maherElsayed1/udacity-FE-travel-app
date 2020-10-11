@@ -27,3 +27,16 @@ app.get("/", function (req, res) {
 app.listen(8080, function () {
     console.log("Example app listening on port 8080!");
 });
+
+let projectData = {};
+
+app.post('/postData', function (req, res) {
+    projectData['travelFrom'] = req.body.to;
+    projectData['travelTo'] = req.body.from;
+    projectData['travelDate'] = req.body.date;
+    projectData['temp'] = req.body.temp;
+    projectData['weatherDesc'] = req.body.weatherDesc;
+    projectData['destinationImage'] = req.body.cityImage;
+
+    res.send(projectData);
+});
