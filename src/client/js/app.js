@@ -17,7 +17,9 @@ function handleSubmit(e) {
 
     tripDetails.travelFrom = document.getElementById('travelFrom').value;
     tripDetails.travelTo = document.getElementById('travelTo').value;
-    tripDetails.travelDate = document.getElementById('travelDate').value;
+    tripDetails.departDate = document.getElementById('departDate').value;
+    tripDetails.returnDate = document.getElementById('returnDate').value;
+    tripDetails.tripDuration = tripDuration(tripDetails.departDate, tripDetails.returnDate);
 
     try {
         fetchGeoNames(tripDetails.travelTo)
@@ -25,7 +27,7 @@ function handleSubmit(e) {
                 const cityLat = cityInfo.geonames[0].lat;
                 const cityLng = cityInfo.geonames[0].lat;
 
-                return fetchWeatherData(cityLat, cityLng, tripDetails.travelDate);
+                return fetchWeatherData(cityLat, cityLng, tripDetails.departDate);
             })
             .then((weatherDetails) => {
                 tripDetails.temp = weatherDetails.data[0].temp;
@@ -37,11 +39,11 @@ function handleSubmit(e) {
                 if (cityImage.hits.length > 0) {
                     tripDetails.destinationImage = cityImage.hits[0].largeImageURL;
                 }
-                console.log(cityImage);
                 // post data to the server
                 return postData(tripDetails);
             })
             .then(() => {
+                console.log(tripDetails)
                 updateUI();
             })
     } catch (err) {
@@ -93,6 +95,14 @@ const fetchPixabayData = async (city) => {
     }
 }
 
+const tripDuration = (dt1, dt2) => {
+    const date1 = new Date(dt1);
+    const date2 = new Date(dt2);
+    const diffTime = Math.abs(date2 - date1);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays + " days";
+}
+
 // Function to post Data
 const postData = async (details) => {
     const response = await fetch('http://localhost:8080/postData', {
@@ -111,19 +121,22 @@ const postData = async (details) => {
     }
 }
 
+// function to update UI
 const updateUI = () => {
     document.querySelector('.trip-info__from span').innerHTML = tripDetails.travelFrom;
     document.querySelector('.trip-info__to span').innerHTML = tripDetails.travelTo;
-    document.querySelector('.trip-info__date span').innerHTML = tripDetails.travelDate;
+    document.querySelector('.trip-info__depart span').innerHTML = tripDetails.departDate;
+    document.querySelector('.trip-info__return span').innerHTML = tripDetails.returnDate;
+    document.querySelector('.trip-info__duration span').innerHTML = tripDetails.tripDuration;
     document.querySelector('.trip-info__weather span').innerHTML = tripDetails.temp + '&#8451; ' + tripDetails.weatherDesc;
     document.querySelector('.trip-info').style.backgroundImage = `url(${tripDetails.destinationImage})`;
     document.querySelector('.trip-info').classList.add('show');
 }
 
-document.getElementById("formSubmit").addEventListener("click", handleSubmit);
-
+// Events
+document.getElementById("formSubmit").addEventListener("submit", handleSubmit);
 document.querySelector('.close').addEventListener('click', function () {
     document.querySelector('.trip-info').classList.remove('show');
-})
+});
 
 export { handleSubmit }
