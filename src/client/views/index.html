@@ -54,5 +54,15 @@
                 <h6>Created by: Maher Elsayed for udacity frontend nanodegree 2020</h6>
             </footer>
         </div>
+
+        <script>
+            // Check that service workers are supported
+            if ("serviceWorker" in navigator) {
+                // Use the window load event to keep the page load performant
+                window.addEventListener("load", () => {
+                    navigator.serviceWorker.register("/service-worker.js");
+                });
+            }
+        </script>
     </body>
 </html>
