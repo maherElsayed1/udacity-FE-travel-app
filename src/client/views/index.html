@@ -6,42 +6,46 @@
         <title>Travel App - Udacity Nanodegree</title>
     </head>
     <body>
-        <header>
-            <h1>Travel App</h1>
-        </header>
+        <div class="wrapper">
+            <header class="header">
+                <h1>Travel App</h1>
+            </header>
 
-        <section class="content">
-            <div class="app-form">
-                <form>
-                    <div class="form-group">
-                        <label for="travelFrom">Travel From:</label>
-                        <input type="text" name="travelFrom" id="travelFrom" autocomplete="off" required />
-                    </div>
+            <section class="content">
+                <div class="app-form">
+                    <form>
+                        <div class="form-group">
+                            <label for="travelFrom">Travel From:</label>
+                            <input type="text" name="travelFrom" id="travelFrom" autocomplete="off" placeholder="london" required />
+                        </div>
 
-                    <div class="form-group">
-                        <label for="travelFrom">Travel To:</label>
-                        <input type="text" name="travelTo" id="travelTo" autocomplete="off" required />
-                    </div>
+                        <div class="form-group">
+                            <label for="travelFrom">Travel To:</label>
+                            <input type="text" name="travelTo" id="travelTo" autocomplete="off" placeholder="egypt" required />
+                        </div>
 
-                    <div class="form-group">
-                        <label for="travelFrom">Travel Date:</label>
-                        <input type="date" name="travelDate" id="travelDate" autocomplete="off" required />
-                    </div>
+                        <div class="form-group">
+                            <label for="travelFrom">Travel Date:</label>
+                            <input type="date" name="travelDate" id="travelDate" autocomplete="off" required />
+                        </div>
 
-                    <input type="submit" value="Submit" name="submit" id="formSubmit" />
-                </form>
-            </div>
-            <div class="trip-info">
-                <li class="trip-info__from">Travel From: <span></span></li>
-                <li class="trip-info__to">Travel To: <span></span></li>
-                <li class="trip-info__date">Travel Date: <span></span></li>
-                <li class="trip-info__weather">Expected Weather: <span></span></li>
-                <li class="trip-info__city-img">City Image: <span></span></li>
-            </div>
-        </section>
+                        <input type="submit" value="Submit" name="submit" id="formSubmit" />
+                    </form>
+                </div>
+                <div class="trip-info">
+                    <button type="button" class="close">close</button>
+                    <ul>
+                        <li class="trip-info__from">Travel From: <span></span></li>
+                        <li class="trip-info__to">Travel To: <span></span></li>
+                        <li class="trip-info__date">Travel Date: <span></span></li>
+                        <li class="trip-info__weather">Expected Weather: <span></span></li>
+                    </ul>
+                </div>
+            </section>
 
-        <footer>
-            <h6>Created by: Maher Elsayed for udacity frontend nanodegree 2020</h6>
-        </footer>
+            <footer class="footer">
+                <h6>Created by: Maher Elsayed for udacity frontend nanodegree 2020</h6>
+            </footer>
+        </div>
     </body>
 </html>

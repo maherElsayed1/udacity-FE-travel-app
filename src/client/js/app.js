@@ -35,8 +35,9 @@ function handleSubmit(e) {
             })
             .then((cityImage) => {
                 if (cityImage.hits.length > 0) {
-                    tripDetails.destinationImage = cityImage.hits[0].webformatURL;
+                    tripDetails.destinationImage = cityImage.hits[0].largeImageURL;
                 }
+                console.log(cityImage);
                 // post data to the server
                 return postData(tripDetails);
             })
@@ -115,10 +116,14 @@ const updateUI = () => {
     document.querySelector('.trip-info__to span').innerHTML = tripDetails.travelTo;
     document.querySelector('.trip-info__date span').innerHTML = tripDetails.travelDate;
     document.querySelector('.trip-info__weather span').innerHTML = tripDetails.temp + '&#8451; ' + tripDetails.weatherDesc;
-    document.querySelector('.trip-info__city-img span').innerHTML = `<img src="${tripDetails.destinationImage}" />`
+    document.querySelector('.trip-info').style.backgroundImage = `url(${tripDetails.destinationImage})`;
+    document.querySelector('.trip-info').classList.add('show');
 }
 
 document.getElementById("formSubmit").addEventListener("click", handleSubmit);
 
+document.querySelector('.close').addEventListener('click', function () {
+    document.querySelector('.trip-info').classList.remove('show');
+})
 
 export { handleSubmit }
