@@ -122,7 +122,7 @@ const postData = async (details) => {
 }
 
 // function to manage depart & return dates
-(function manageDates() {
+function manageDates() {
     let today = new Date();
     let dd = today.getDate();
     let mm = today.getMonth() + 1;
@@ -140,7 +140,7 @@ const postData = async (details) => {
     myDepartDate.addEventListener('change', function () {
         document.getElementById("returnDate").setAttribute("min", this.value);
     })
-})();
+}
 
 // function to update UI
 const updateUI = () => {
@@ -155,9 +155,12 @@ const updateUI = () => {
 }
 
 // Events
-document.querySelector("form").addEventListener("submit", handleSubmit);
-document.querySelector('.close').addEventListener('click', function () {
-    document.querySelector('.trip-info').classList.remove('show');
+window.addEventListener('load', function () {
+    manageDates();
+    document.querySelector("form").addEventListener("submit", handleSubmit);
+    document.querySelector('.close').addEventListener('click', function () {
+        document.querySelector('.trip-info').classList.remove('show');
+    });
 });
 
 export { handleSubmit }
